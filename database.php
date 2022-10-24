@@ -6,7 +6,6 @@
         private $db_name="crudoop";
 
         private $mysqli="";
-        private $result=array();
         private $conn=false;
 
         public function __construct(){
@@ -16,8 +15,7 @@
 
                 //connection error
                 if($this->mysqli->connect_error){
-                    array_push($this->result,$this->mysqli->connect_error);
-                    return false;
+                     return $this->mysqli->connect_error;
                 }else{
                     return $this->mysqli;
                 }
@@ -41,9 +39,52 @@
 
                 if($this->mysqli->query($sql)){
                     //IF DATA INSERT SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
-                    header('location:home.php?msg=insert_done');
+                    header('location:displayrecords.php?msg=insert_done');
                 }
                 else{
+                    return $this->mysqli->error;
+                }
+            }else{
+                echo "Table not exists!";
+            }
+        }
+
+        //UPDATE SINGLE RECORD
+        public function updateData($post,$table){
+            //IF TABLE EXISTS
+            if($this->tableExists($table)){
+
+                $userName=$post['name'];
+                $university=$post['university'];
+                $city=$post['city'];
+                $id=$post['hid'];
+
+                //UPDATE RECORD QUERY
+                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city' where id='$id'";
+
+                if($this->mysqli->query($sql)){
+                    //IF DATA UPDATE SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
+                    header('location:displayrecords.php?msg=update_done');
+                }
+                else{
+                    return $this->mysqli->error;
+                }
+            }else{
+                echo "Table not exists!";
+            }
+        }
+
+        //DELETE SINGLE RECORD
+        public function deleteData($delID,$table){
+             //table exists or not checking
+             if($this->tableExists($table)){
+                // DELETE RECORD QUERY
+                $sql="DELETE FROM $table where id='$delID'";
+
+                if($this->mysqli->query($sql)){
+                    //IF DATA DELETE SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
+                    header('location:displayrecords.php?msg=delete_done');
+                }else{
                     return $this->mysqli->error;
                 }
             }else{
@@ -98,50 +139,6 @@
             }
         }
 
-        //UPDATE SINGLE RECORD
-        public function updateData($post,$table){
-            //IF TABLE EXISTS
-            if($this->tableExists($table)){
-
-                $userName=$post['name'];
-                $university=$post['university'];
-                $city=$post['city'];
-                $id=$post['hid'];
-
-                //INSERT QUERY
-                echo $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city' where id='$id'";
-
-                if($this->mysqli->query($sql)){
-                    //IF DATA INSERT SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
-                    header('location:displayrecords.php?msg=update_done');
-                }
-                else{
-                    return $this->mysqli->error;
-                }
-            }else{
-                echo "Table not exists!";
-            }
-        }
-
-        //DELETE SINGLE RECORD
-        // public function deleteData($delID,$table){
-        //      //table exists or not checking
-        //      if($this->tableExists($table)){
-        //         echo $sql="DELETE FROM $table where id='$delID'";
-        //         echo "<br/>";
-
-        //         if($this->mysqli->query($sql)){
-        //             array_push($this->result,$this->mysqli->affected_rows);
-        //             return true;
-        //         }else{
-        //             array_push($this->result,$this->mysqli->error);
-        //             return false;
-        //         }
-        //     }else{
-        //         return false;
-        //     }
-        // }
-
         //CHECK TABLE EXISTS OR NOT
         private function tableExists($table){
             //TABLE FIND QUERY
@@ -149,19 +146,12 @@
 
             $record=$this->mysqli->query($sql);
 
+            //CHECK THERE IS ANY TABLE IN THE TABLE;
             if($record->num_rows > 0){
                 return true;
             }else{
-                array_push($this->result,$this->mysqli->error);
-                return false;
+                return $this->mysqli->error;
             }
-        }
-
-        //ALL THE RESULT SHOWCASE
-        public function getResult(){
-            $val=$this->result;
-            $this->result=array();
-            return $val;
         }
 
         //CLOSE CONNECTION

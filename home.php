@@ -1,10 +1,13 @@
 <?php
-    include 'database.php';
-    $obj=new UsersData();
+    //include 'database.php';
+    include 'validation.php';
+    //$obj=new UsersData();
     //print_r($obj);
 
     if(isset($_POST['submit'])){
-        $ins=$obj->insertData($_POST,'studentsinfo');
+        $validations=new Validator($_POST);
+        $error=$validations->validation();
+//$ins=$obj->insertData($_POST,'studentsinfo');
         //print_r($ins);
     }
 ?>
@@ -32,13 +35,6 @@
     <div class="row mt-5">
         <div class="col-md-4"></div>
         <div class="col-md-4 maincol">
-        <?php
-        if(isset($_GET['msg']) && $_GET['msg'] == 'insert_done'){
-            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Record Insert Successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>';
-        }
-        ?>
             <div class="card" >
                 <div class="card-body">
                     <!-- INSERT_FORM -->
@@ -51,12 +47,15 @@
                             <label class="form-label"><strong>University</strong></label>
                             <input type="university" name="university" class="form-control" placeholder="Enter your university name" id="input" >
                         </div>
+                        <div class="error">
+                        <?php $error['name'] ??'' ?>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label"><strong>City</strong></label>
                             <input type="city" name="city" class="form-control" placeholder="Enter the city" id="input">
                         </div>
-                        <button type="submit" name="submit" value="submit" class="btn btn-primary" id="submit"><strong>Submit</strong></button>
-                        <a href="http://localhost/crudui/displayrecords.php" type="button" class="btn btn-primary ms-2 submittag">Display Records</a>
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary" id="submit"><strong>SUBMIT</strong></button>
+                        <button type="button" onclick="history.back()" class="btn btn-primary ms-2" id="submit"><strong>GO BACK</strong></button>
                     </form>
                     <!-- INSERT_FORM END -->
                 </div>

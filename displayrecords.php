@@ -9,9 +9,10 @@
         //print_r($ups);
     }
     //GET DEL ID
-    // if(isset($_GET['delete'])){
-    //     $delID=$_GET['delete'];
-    //     $obj->deleteData($delID,'studentsinfo');
+    if(isset($_GET['delete'])){
+        $delID=$_GET['delete'];
+        $obj->deleteData($delID,'studentsinfo');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +31,7 @@
 <body>
     <div class="row">
         <div class="col-md-2">
-        <button type="button" onclick="history.back()" class="btn btn-primary mt-4 ms-5">Back Page</button>
+        <button type="button" onclick="history.back()" class="btn btn-primary mt-4 ms-5"><strong>GO BACK</strong></button>
         </div>
         <div class="col-md-8">
             <?php       
@@ -63,17 +64,30 @@
             </div>
             <?php
                 }else{ ?>
+                
+                <!-- ALERT MESSAGE -->
                 <?php
+                    if(isset($_GET['msg']) && $_GET['msg'] == 'insert_done'){
+                        echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <strong>Record Insert Successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                    }
                     if(isset($_GET['msg']) && $_GET['msg'] == 'update_done'){
                         echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                        <strong> Update Successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong>Record Update Successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                    }
+                    if(isset($_GET['msg']) && $_GET['msg'] == 'delete_done'){
+                        echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <strong>Record delete Successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     }
                 ?>
+
                 <!-- TABLE LIST -->
-            <table class="table table-striped mt-3">
+            <table class="table table-striped mt-4">
                 <thead>
-                    <tr class="text-center">
+                    <tr class="text-center bg-dark text-light">
                     <th scope="col">Id</th>
                     <th scope="col">Std_name</th>
                     <th scope="col">University</th>
@@ -102,7 +116,9 @@
             </table>
             <?php } ?>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <a href="home.php" type="button" class="btn btn-success mt-4 ms-4"><strong>Add_NewUser</strong></a>
+        </div>
     </div>
 </body>
 </html>

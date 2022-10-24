@@ -57,12 +57,7 @@ label{
 
 }
 
-.submittag{
-    background: linear-gradient(to right, var(--green) 0%, var(--blue) 100%);
-    outline: none;
-    color: var(--dark);
-    font-size: 1rem;
-}
+
 
 .alert{
     background: var(--tertiary)
