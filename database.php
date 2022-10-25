@@ -33,9 +33,10 @@
                 $userName=$post['name'];
                 $university=$post['university'];
                 $city=$post['city'];
+                $phone=$post['phone'];
 
                 //INSERT QUERY
-                $sql="INSERT INTO $table (std_name,university,city) VALUES ('$userName','$university','$city')";
+                $sql="INSERT INTO $table (std_name,university,city,phone_nbr) VALUES ('$userName','$university','$city','$phone')";
 
                 if($this->mysqli->query($sql)){
                     //IF DATA INSERT SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
@@ -57,10 +58,11 @@
                 $userName=$post['name'];
                 $university=$post['university'];
                 $city=$post['city'];
+                $phone=$post['phone'];
                 $id=$post['hid'];
 
                 //UPDATE RECORD QUERY
-                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city' where id='$id'";
+                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city', phone_nbr='$phone' where id='$id'";
 
                 if($this->mysqli->query($sql)){
                     //IF DATA UPDATE SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER

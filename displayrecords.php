@@ -1,14 +1,26 @@
 <?php
     include 'database.php';
+    include 'validation.php';
     $obj=new UsersData();
     // print_r($obj);
 
-    //POST DATA
+    //POST UPDATED DATA WITH VALIDATION
     if(isset($_POST['update'])){
-        $ups=$obj->updateData($_POST,'studentsinfo');
+
+        //CREATE A INSTANCE OF UserValidation CLASS
+        $validations=new UserValidation($_POST);
+
+        //GET ERROR MESSAGE
+        $get_error=$validations->validation();
+        print_r($get_error);
+
+        if(!$get_error){
+            $obj->updateData($_POST,'studentsinfo');
+        }
         //print_r($ups);
     }
-    //GET DEL ID
+
+    //GET_DELETED_ID
     if(isset($_GET['delete'])){
         $delID=$_GET['delete'];
         $obj->deleteData($delID,'studentsinfo');
@@ -43,19 +55,43 @@
             <div class="card mt-5" >
                 <div class="card-body">
                     <!-- INSERT_FORM -->
-                    <form class="" action="displayrecords.php" method="POST">
+                    <form class="" action="displayrecords.php?edit=<?php echo $singleRecord['id'];?>" method="POST">
                         <div class="mb-3">
                             <label class="form-label"><strong>UsarName</strong></label>
                             <input type="name" name="name" value=<?php echo $singleRecord['std_name'];?> class="form-control">
                         </div>
+                        <?php 
+                            if(isset($get_error['name'])){
+                                echo '<div class="alert alert-danger">'.$get_error['name'].'</div>';
+                            }
+                        ?>
                         <div class="mb-3 ">
                             <label class="form-label"><strong>University</strong></label>
                             <input type="university" name="university" class="form-control" value=<?php echo $singleRecord['university'];?> >
                         </div>
+                        <?php 
+                            if(isset($get_error['university'])){
+                                echo '<div class="alert alert-danger">'.$get_error['university'].'</div>';
+                            }
+                        ?>
                         <div class="mb-3">
                             <label class="form-label"><strong>City</strong></label>
                             <input type="city" name="city" class="form-control" value=<?php echo $singleRecord['city']?> >
                         </div>
+                        <?php 
+                            if(isset($get_error['city'])){
+                                echo '<div class="alert alert-danger">'.$get_error['city'].'</div>';
+                            }
+                        ?>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Contact</strong></label>
+                            <input type="phone" name="phone" class="form-control" value=<?php echo $singleRecord['phone_nbr']?> >
+                        </div>
+                        <?php 
+                            if(isset($get_error['phone'])){
+                                echo '<div class="alert alert-danger">'.$get_error['phone'].'</div>';
+                            }
+                        ?>
                         <button type="submit" name="update" value="update" class="btn btn-primary" ><strong>Update</strong></button>
                         <input type="hidden" name='hid' value=<?php echo $singleRecord['id']?> >
                     </form>
@@ -92,6 +128,7 @@
                     <th scope="col">Std_name</th>
                     <th scope="col">University</th>
                     <th scope="col">City</th>
+                    <th scope="col">Contact</th>
                     <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -106,6 +143,7 @@
                             <td><?php echo $value['std_name'];?></td>
                             <td><?php echo $value['university'];?></td>
                             <td><?php echo $value['city'];?></td>
+                            <td><?php echo $value['phone_nbr'];?></td>
                             <td>
                                 <a href="displayrecords.php?edit=<?php echo $value['id']?>" type="button" class="btn btn-primary ms-2 ">Update</a>
                                 <a href="displayrecords.php?delete=<?php echo $value['id']?>" type="button" class="btn btn-danger ms-2 ">Delete</a>
