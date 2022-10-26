@@ -2,6 +2,8 @@
     include 'database.php';
     include 'validation.php';
     $obj=new UsersData();
+    $class=$obj->classlistByID(1,'studentsinfo','classes');
+    print_r($class);
     // print_r($obj);
 
     //POST UPDATED DATA WITH VALIDATION
@@ -54,7 +56,7 @@
             ?>
             <div class="card mt-5" >
                 <div class="card-body">
-                    <!-- INSERT_FORM -->
+                    <!-- UPDATED_FORM -->
                     <form class="" action="displayrecords.php?edit=<?php echo $singleRecord['id'];?>" method="POST">
                         <div class="mb-3">
                             <label class="form-label"><strong>UsarName</strong></label>
@@ -95,7 +97,7 @@
                         <button type="submit" name="update" value="update" class="btn btn-primary" ><strong>Update</strong></button>
                         <input type="hidden" name='hid' value=<?php echo $singleRecord['id']?> >
                     </form>
-                    <!-- INSERT_FORM END -->
+                    <!-- UPDATED_FORM END -->
                 </div>
             </div>
             <?php
@@ -134,7 +136,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        $data=$obj->displayRecords('studentsinfo');//table name
+                        $data=$obj->displayRecords('studentsinfo','classes');//table name
                         $id_no=1;
                         foreach($data as $value){
                     ?>
@@ -153,6 +155,7 @@
                 </tbody>
             </table>
             <?php } ?>
+            <!-- TABLE_LIST END -->
         </div>
         <div class="col-md-2">
             <a href="home.php" type="button" class="btn btn-success mt-4 ms-4"><strong>Add_NewUser</strong></a>

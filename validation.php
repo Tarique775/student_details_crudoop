@@ -38,8 +38,8 @@
                 if (!preg_match ("/^[a-zA-Z ]*$/", $val) ){ 
                     $this->errors['name']='Only alphabetical value is allowed.'; 
                 }
-                if(strlen($val) > 6 || strlen($val) < 3){
-                    $this->errors['name']='Name length should be greater than 3 and not more than 6.';
+                if(strlen($val) > 15 || strlen($val) < 3){
+                    $this->errors['name']='Name length should be greater than 3 and not more than 15.';
                 } 
             }
         }
@@ -54,8 +54,8 @@
                 if (!preg_match ("/^[a-zA-Z ]*$/", $val) ){ 
                     $this->errors['university']='Only alphabetical value is allowed.'; 
                 }
-                if(strlen($val) > 6 || strlen($val) < 3){
-                    $this->errors['university']='University length should be greater than 3 and not more than 6.';
+                if(strlen($val) > 15 || strlen($val) < 3){
+                    $this->errors['university']='University length should be greater than 3 and not more than 15.';
                 } 
             }  
         }
@@ -70,8 +70,8 @@
                 if (!preg_match ("/^[a-zA-Z ]*$/", $val) ){ 
                     $this->errors['city']='Only alphabetical value is allowed.'; 
                 }
-                if(strlen($val) > 6 || strlen($val) < 3){
-                    $this->errors['city']='City length should be greater than 3 and not more than 6.';
+                if(strlen($val) > 15 || strlen($val) < 3){
+                    $this->errors['city']='City length should be greater than 3 and not more than 15.';
                 } 
             } 
         }

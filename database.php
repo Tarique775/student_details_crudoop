@@ -95,18 +95,20 @@
         }
 
         //DISPLAY ALL RECORDS
-        public function displayRecords($table){
+        public function displayRecords($stdTable,$classTable){
 
             //IF TABLE EXISTS
-            if($this->tableExists($table)){
+            if($this->tableExists($stdTable)){
                 //SHOW ALL RECORDS SQL
-                $sql="SELECT * FROM $table";
-
+                //echo $sql="SELECT * FROM $stdTable left JOIN $classTable ON $stdTable.id = $classTable.std_id";
+                $sql="SELECT * FROM $stdTable";
+                
+                //RUN SQL COMMAND
                 $data=$this->mysqli->query($sql);
 
                 //CHECK THERE IS ANY RECORD IN THE TABLE;
                 if($data->num_rows>0){
-                    // FATCHING AN ASSOCIATIVE ARRAY TYPE RECORDS
+                    // FATCHING ASSOCIATIVE ARRAY TYPE RECORDS
                     while($row=$data->fetch_assoc()){
                         $displayData[]=$row;
                     }
@@ -128,6 +130,7 @@
                 //SHOW SINGLE RECORD FIND SQL
                 $sql="SELECT * FROM $table where id='$editID'";
 
+                //RUN SQL COMMAND
                 $display=$this->mysqli->query($sql);
 
                 //CHECK THERE IS ANY RECORD IN THE TABLE;
@@ -138,6 +141,28 @@
                 }else{
                     echo"There is no single record in this table!";
                 }
+            }
+        }
+
+        //DISPLAY CLASSES PER_SINGLE RECORDS
+        public function classlistByID($stdID,$stdTable,$classTable){
+            
+            //SQL FOR JOINING
+            $sql="SELECT $stdTable.std_name, $classTable.sub_name FROM $stdTable INNER JOIN $classTable ON $stdTable.id = $classTable.std_id where $stdTable.id='$stdID'";
+
+            //RUN SQL COMMAND
+            $result=$this->mysqli->query($sql);
+
+            //CHECK IF THERE IS ANY SINGLE RECORD EXISTS
+            if($result->num_rows > 0){
+                //FETCHING ALL DATA FROM JOINING CONDITION
+                while($row=$result->fetch_assoc()){
+                    $data[]=$row;
+                }
+                return $data;
+                //var_dump($data);
+            }else{
+                echo"There is no records in the table class";
             }
         }
 

@@ -46,28 +46,31 @@
             <div class="card" >
                 <div class="card-body">
                     <!-- INSERT_FORM -->
-                    <form class="" action="home.php" method="POST">
-                        <div class="mb-3">
+                    <form id="form" action="home.php" method="POST">
+                        <div class="mb-2">
                             <label class="form-label"><strong>UsarName</strong></label>
-                            <input type="name" name="name" placeholder="Enter your name" class="form-control" id="input">
+                            <div class="error"></div>
+                            <input type="name" name="name" placeholder="Enter your name" class="form-control input" id="userName">
                         </div>
                         <?php 
                             if(isset($get_error['name'])){
                                 echo '<div class="alert alert-danger">'.$get_error['name'].'</div>';
                             }
                         ?>
-                        <div class="mb-3 ">
+                        <div class="mb-2 ">
                             <label class="form-label"><strong>University</strong></label>
-                            <input type="university" name="university" class="form-control" placeholder="Enter your university name" id="input">
+                            <div class="error"></div>
+                            <input type="university" name="university" class="form-control input" placeholder="Enter your university name" id="university">
                         </div>
                         <?php 
                             if(isset($get_error['university'])){
                                 echo '<div class="alert alert-danger">'.$get_error['university'].'</div>';
                             }
                         ?>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="form-label"><strong>City</strong></label>
-                            <input type="city" name="city" class="form-control" placeholder="Enter the city" id="input">
+                            <div class="error"></div>
+                            <input type="city" name="city" class="form-control input" placeholder="Enter the city" id="city">
                         </div>
                         <?php 
                             if(isset($get_error['city'])){
@@ -76,14 +79,15 @@
                         ?>
                         <div class="mb-3">
                             <label class="form-label"><strong>Contact</strong></label>
-                            <input type="number" name="phone" class="form-control" placeholder="Enter the phone number" id="input">
+                            <div class="error"></div>
+                            <input type="phone" name="phone" class="form-control input" placeholder="Enter the phone number" id="contact">
                         </div>
                         <?php 
                             if(isset($get_error['phone'])){
                                 echo '<div class="alert alert-danger">'.$get_error['phone'].'</div>';
                             }
                         ?>
-                        <button type="submit" name="submit" value="submit" class="btn btn-primary" id="submit"><strong>SUBMIT</strong></button>
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary submit" id="submit"><strong>SUBMIT</strong></button>
                         <button type="button" onclick="history.back()" class="btn btn-primary ms-2" id="submit"><strong>GO BACK</strong></button>
                     </form>
                     <!-- INSERT_FORM END -->
@@ -92,5 +96,7 @@
         </div>
         <div class="col-md-4"></div>      
     </div>
+
+    <script src="./src/validation.js"></script>
 </body>
 </html>
