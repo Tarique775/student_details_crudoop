@@ -3,7 +3,7 @@
         private $db_host="localhost";
         private $db_user="root";
         private $db_password="";
-        private $db_name="crudoop";
+        private $db_name="student_details";
 
         private $mysqli="";
         private $conn=false;
@@ -34,9 +34,10 @@
                 $university=$post['university'];
                 $city=$post['city'];
                 $phone=$post['phone'];
+                $class_id=$post['class_id'];
 
                 //INSERT QUERY
-                $sql="INSERT INTO $table (std_name,university,city,phone_nbr) VALUES ('$userName','$university','$city','$phone')";
+                $sql="INSERT INTO $table (std_name,university,city,phone_nbr,class_id) VALUES ('$userName','$university','$city','$phone',$class_id)";
 
                 if($this->mysqli->query($sql)){
                     //IF DATA INSERT SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
@@ -60,9 +61,10 @@
                 $city=$post['city'];
                 $phone=$post['phone'];
                 $id=$post['hid'];
+                $class_id=$post['class_id'];
 
                 //UPDATE RECORD QUERY
-                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city', phone_nbr='$phone' where id='$id'";
+                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city', phone_nbr='$phone',class_id='$class_id' where id='$id'";
 
                 if($this->mysqli->query($sql)){
                     //IF DATA UPDATE SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
@@ -95,13 +97,13 @@
         }
 
         //DISPLAY ALL RECORDS
-        public function displayRecords($stdTable,$classTable){
+        public function displayRecords($stdTable){
 
             //IF TABLE EXISTS
             if($this->tableExists($stdTable)){
                 //SHOW ALL RECORDS SQL
                 //echo $sql="SELECT * FROM $stdTable left JOIN $classTable ON $stdTable.id = $classTable.std_id";
-                $sql="SELECT * FROM $stdTable";
+                echo $sql="SELECT * FROM $stdTable";
                 
                 //RUN SQL COMMAND
                 $data=$this->mysqli->query($sql);
@@ -110,7 +112,7 @@
                 if($data->num_rows>0){
                     // FATCHING ASSOCIATIVE ARRAY TYPE RECORDS
                     while($row=$data->fetch_assoc()){
-                        $displayData[]=$row;
+                        print_r($displayData[]=$row);
                     }
                     // $displayData[]=$data->fetch_assoc();
                     return $displayData;
@@ -144,27 +146,48 @@
             }
         }
 
-        //DISPLAY CLASSES PER_SINGLE RECORDS
-        public function classlistByID($stdID,$stdTable,$classTable){
-            
-            //SQL FOR JOINING
-            $sql="SELECT $stdTable.std_name, $classTable.sub_name FROM $stdTable INNER JOIN $classTable ON $stdTable.id = $classTable.std_id where $stdTable.id='$stdID'";
-
-            //RUN SQL COMMAND
-            $result=$this->mysqli->query($sql);
-
-            //CHECK IF THERE IS ANY SINGLE RECORD EXISTS
-            if($result->num_rows > 0){
-                //FETCHING ALL DATA FROM JOINING CONDITION
-                while($row=$result->fetch_assoc()){
-                    $data[]=$row;
+        public function insert_forenkey_into_home_page(){
+            $sql="SELECT * FROM `classes`";
+            $row=$this->mysqli->query($sql);
+                if($row->num_rows > 0){
+                    while($data=$row->fetch_assoc()){
+                        $classData[]=$data;
+                    }
+                    return $classData;
                 }
-                return $data;
-                //var_dump($data);
-            }else{
-                echo"There is no records in the table class";
-            }
         }
+
+        public function displayrecordwithforenkeydropdown($clsId){
+            $sql="SELECT * FROM `classes` WHERE class_id='$clsId'";
+            $data=$this->mysqli->query($sql);
+            if($data->num_rows > 0){
+                while($row=$data->fetch_assoc()){
+                    $rows[]=$row;
+                };
+            }
+            return $rows;
+        }
+        //DISPLAY CLASSES PER_SINGLE RECORDS
+        // public function classlistByID($stdID,$stdTable,$classTable){
+            
+        //     //SQL FOR JOINING
+        //     $sql="SELECT $stdTable.std_name, $classTable.sub_name FROM $stdTable INNER JOIN $classTable ON $stdTable.id = $classTable.std_id where $stdTable.id='$stdID'";
+
+        //     //RUN SQL COMMAND
+        //     $result=$this->mysqli->query($sql);
+
+        //     //CHECK IF THERE IS ANY SINGLE RECORD EXISTS
+        //     if($result->num_rows > 0){
+        //         //FETCHING ALL DATA FROM JOINING CONDITION
+        //         while($row=$result->fetch_assoc()){
+        //             $data[]=$row;
+        //         }
+        //         return $data;
+        //         //var_dump($data);
+        //     }else{
+        //         echo"There is no records in the table class";
+        //     }
+        // }
 
         //CHECK TABLE EXISTS OR NOT
         private function tableExists($table){

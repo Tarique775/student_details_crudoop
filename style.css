@@ -1,14 +1,14 @@
 :root {
-    --primary: #171c2a;
-    --secondary: #11141f;
-    --tertiary: #1f222e;
-    --dark: #0e0e12;
-    --green: #52d794;
-    --blue: #00b3bd;
-    --light: #fff;
-    --red: indianred;
-    --yeallow: rgb(253, 253, 36);
-  }
+  --primary: #171c2a;
+  --secondary: #11141f;
+  --tertiary: #1f222e;
+  --dark: #0e0e12;
+  --green: #52d794;
+  --blue: #00b3bd;
+  --light: #fff;
+  --red: indianred;
+  --yeallow: rgb(253, 253, 36);
+}
 
 * {
   box-sizing: border-box;
@@ -27,42 +27,38 @@ body {
     box-sizing: inherit;
   } */
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to right, var(--green) 0%, var(--blue) 100%);
-    /* font-size: 10px; */
-  }
-form .input{
-    background: var(--tertiary);
-    outline: none;
-    /* padding: 15px; */
-    border: 1px solid var(--dark);
-    color: #fff;
-    border-radius: 6px;
-    font-size: 1.2rem;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(to right, var(--green) 0%, var(--blue) 100%);
+  /* font-size: 10px; */
+}
+form .input {
+  background: var(--tertiary);
+  outline: none;
+  /* padding: 15px; */
+  border: 1px solid var(--dark);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 1.2rem;
 }
 
-.card{
-    background: var(--primary);
-    /* border-radius: 6px; */
+.card {
+  background: var(--primary);
+  /* border-radius: 6px; */
 }
-.card-body{
-    background: var(--secondary);
-    border-color:var(--secondary) ;
-    border-radius: 6px;
-}
-
-label{
-    color: var(--green);
-    font-size: 1.2rem;
+.card-body {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  border-radius: 6px;
 }
 
-#submit{
-    background: linear-gradient(to right, var(--blue) 0%, var(--green) 100%);
-    outline: none;
-    color: var(--dark);
-    font-size: 1rem;
-
+label {
+  color: var(--green);
+  font-size: 1.2rem;
 }
 
-
-
+#submit {
+  background: linear-gradient(to right, var(--blue) 0%, var(--green) 100%);
+  outline: none;
+  color: var(--dark);
+  font-size: 1rem;
+}

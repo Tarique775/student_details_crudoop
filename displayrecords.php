@@ -2,9 +2,9 @@
     include 'database.php';
     include 'validation.php';
     $obj=new UsersData();
-    $class=$obj->classlistByID(1,'studentsinfo','classes');
-    print_r($class);
-    // print_r($obj);
+    // $class=$obj->classlistByID(1,'studentsinfo');
+    // print_r($class);
+    print_r($obj);
 
     //POST UPDATED DATA WITH VALIDATION
     if(isset($_POST['update'])){
@@ -94,6 +94,10 @@
                                 echo '<div class="alert alert-danger">'.$get_error['phone'].'</div>';
                             }
                         ?>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Contact</strong></label>
+                            <input type="class_id" name="class_id" class="form-control" value=<?php echo $singleRecord['class_id']?> >
+                        </div>
                         <button type="submit" name="update" value="update" class="btn btn-primary" ><strong>Update</strong></button>
                         <input type="hidden" name='hid' value=<?php echo $singleRecord['id']?> >
                     </form>
@@ -131,26 +135,57 @@
                     <th scope="col">University</th>
                     <th scope="col">City</th>
                     <th scope="col">Contact</th>
+                    <th scope="col">ClassList</th>
                     <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $data=$obj->displayRecords('studentsinfo','classes');//table name
-                        $id_no=1;
+                        $data=$obj->displayRecords('studentsinfo');//table name
+                        if($data){
+                        //$id_no=1;
                         foreach($data as $value){
                     ?>
                         <tr class="text-center">
-                            <td><?php echo $id_no++;?></td>
+                            <td><?php echo $value['id'];?></td>
                             <td><?php echo $value['std_name'];?></td>
                             <td><?php echo $value['university'];?></td>
                             <td><?php echo $value['city'];?></td>
                             <td><?php echo $value['phone_nbr'];?></td>
                             <td>
+                                <?php
+                                    if($value['class_id']!=0){
+
+                                    
+                                ?>
+                                <div class="dropdown ">
+                                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Classes
+                                    </button>
+                                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                            <?php
+                                $iD=$value['class_id'];
+                                $data2=$obj->displayrecordwithforenkeydropdown($iD);
+                                foreach($data2 as $classIDdata){
+                            ?>
+                                        <li><a class="dropdown-item "><?php echo $classIDdata['class_name']?$classIDdata['class_name']:$classIDdata['class_id'];?></a></li>
+                            <?php } ?>
+                                    </ul>
+                                </div>
+                                <?php }else {?>
+                                    <h6></h6>
+                                <?php } ?>
+                            </td>
+                            <td>
                                 <a href="displayrecords.php?edit=<?php echo $value['id']?>" type="button" class="btn btn-primary ms-2 ">Update</a>
                                 <a href="displayrecords.php?delete=<?php echo $value['id']?>" type="button" class="btn btn-danger ms-2 ">Delete</a>
                             </td>
                         </tr>
+                <?php }
+                }else{ ?>
+                    <tr class="text-center">
+                        <td colspan='6'><h5>THERE IS NO RECORDS</h5></td>
+                    </tr>
                 <?php } ?>
                 </tbody>
             </table>

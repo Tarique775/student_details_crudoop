@@ -77,7 +77,7 @@
                                 echo '<div class="alert alert-danger">'.$get_error['city'].'</div>';
                             }
                         ?>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="form-label"><strong>Contact</strong></label>
                             <div class="error"></div>
                             <input type="phone" name="phone" class="form-control input" placeholder="Enter the phone number" id="contact">
@@ -87,6 +87,19 @@
                                 echo '<div class="alert alert-danger">'.$get_error['phone'].'</div>';
                             }
                         ?>
+                        <div class="mb-3">
+                        <label class="form-label"><strong>Select Classes</strong></label>
+                        <select class="form-select bg-dark text-light class_id" aria-label="Default select example">
+                            <option selected>Please Select classes</option>
+                        <?php
+                            $classes=$obj->insert_forenkey_into_home_page();
+
+                            foreach($classes as $classValue){
+                        ?>
+                            <option value="<?php echo $classValue['class_id'] ?>"><?php echo $classValue['class_name'] ?></option>
+                        <?php } ?>
+                        </select>
+                        </div>
                         <button type="submit" name="submit" value="submit" class="btn btn-primary submit" id="submit"><strong>SUBMIT</strong></button>
                         <button type="button" onclick="history.back()" class="btn btn-primary ms-2" id="submit"><strong>GO BACK</strong></button>
                     </form>
@@ -97,6 +110,6 @@
         <div class="col-md-4"></div>      
     </div>
 
-    <script src="./src/validation.js"></script>
+    <!-- <script src="./src/validation.js"></script> -->
 </body>
 </html>

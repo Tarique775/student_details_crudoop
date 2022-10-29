@@ -92,9 +92,9 @@
             }  
         }
 
-        //ADD_ERROR METHOD TO GET THE ERROR MESSAGE
-        private function adderror($key,$value){
-            $this->errors[$key]=$value;
-        }
+        // //ADD_ERROR METHOD TO GET THE ERROR MESSAGE
+        // private function adderror($key,$value){
+        //     $this->errors[$key]=$value;
+        // }
     }
 ?>
