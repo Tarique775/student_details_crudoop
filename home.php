@@ -89,7 +89,7 @@
                         ?>
                         <div class="mb-3">
                         <label class="form-label"><strong>Select Classes</strong></label>
-                        <select class="form-select bg-dark text-light class_id" aria-label="Default select example">
+                        <select name="class_id" class="form-select bg-dark text-light class_id" aria-label="Default select example">
                             <option selected>Please Select classes</option>
                         <?php
                             $classes=$obj->insert_forenkey_into_home_page();
