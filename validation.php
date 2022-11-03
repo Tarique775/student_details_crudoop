@@ -19,7 +19,7 @@
                     return $error_msg;
                 }
             }
-            //CALL __NAME FIELD VALIDATION METHOD
+            //CALL ALL FIELD VALIDATION METHOD
             $this->validName();
             $this->valideUni();
             $this->valideCity();

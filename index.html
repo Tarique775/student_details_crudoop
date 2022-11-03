@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style1.css">
+    <title>Document</title>
+</head>
+<div>
+    <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./class.html">Classes</a></li>
+        <li><a href="#contact">Contact us</a></li>
+        <li class="dropdown" style="float: right;">
+            <a href="#dropdown" class="dropbtn">Login</a>
+            <div class="dropdown-content" style="right: 0;">
+              <a href="./home.php">User</a>
+              <a href="./admin.html">Admin</a>
+            </div>
+        </li>
+        <li class="dropdown" style="float: right;">
+          <a href="#dropdown" class="notification">
+            <span>Notice</span>
+            <span class="badge">3</span>
+          </a>
+          <div class="dropdown-content" style="left: 2;">
+            <a href="./notice.html"><span style="position: absolute;top:31%;font-size: small;">31-10-22</span>Go for first notice</a>
+            <a href="./notice.html"><span style="position: absolute;top:61%;font-size: small;">31-10-22</span>Go for second notice</a>
+            <a href="./notice.html"><span style="position: absolute;top:92%;font-size: small;">31-10-22</span>Go for third notice</a>
+          </div>
+      </li>
+        <!-- <li style="float: right;">
+          <a href="#notice" class="notification">
+          <span>Notice</span>
+          <span class="badge">3</span>
+        </a></li> -->
+    </ul>
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+          <img src="./public/img/rsz_11website_cover_image_-_sdg_4.jpg" style="width:100%">
+          <h1>Education For All</h1>
+          <a href="./slide1page.html">Details</a>
+        </div>
+        
+        <div class="mySlides fade">
+          <img src="./public/img/rsz_290487.jpg" style="width:100%">
+        </div>
+        
+        <div class="mySlides fade">
+          <img src="./public/img/rsz_1akshaya-patrau2019s-other-charitable-interests-include.jpg" style="width:100%">
+        </div>
+        
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+        
+    </div>
+        <br>
+        
+        <div style="text-align:center">
+          <span class="dot" onclick="currentSlide(1)"></span> 
+          <span class="dot" onclick="currentSlide(2)"></span> 
+          <span class="dot" onclick="currentSlide(3)"></span> 
+        </div>
+
+        <script src="./src/imgSlideshow.js"></script>
+            
+</body>
+</html>

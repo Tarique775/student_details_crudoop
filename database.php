@@ -34,16 +34,27 @@
                 $university=$post['university'];
                 $city=$post['city'];
                 $phone=$post['phone'];
-                $class_id=$post['class_id'];
+                // $class_id=$post['hidcls_id'];
 
                 //INSERT QUERY
-                $sql="INSERT INTO $table (std_name,university,city,phone_nbr,class_id) VALUES ('$userName','$university','$city','$phone',$class_id)";
+                echo $sql="INSERT INTO $table (std_name,university,city,phone_nbr) VALUES ('$userName','$university','$city','$phone')";
 
                 if($this->mysqli->query($sql)){
                     //IF DATA INSERT SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
-                    header('location:displayrecords.php?msg=insert_done');
-                }
-                else{
+                    $sqlSelect="SELECT * FROM $table WHERE std_name = '$userName'";
+                    $query=$this->mysqli->query($sqlSelect);
+                    //CHECK ROW IS EMPTY OR NOT
+                    if($query->num_rows > 0){
+                        while($row = $query->fetch_assoc()){
+                            //SESSION CREATE
+                            session_start();
+                            $_SESSION['userName'] = $row['std_name'];
+                            header('location:displayrecords.php?msg=insert_done');
+                        }
+                    }else{
+                        return "INSERT_INNER_SIDE_ISSUE: $this->mysqli->error";
+                    }
+                }else{
                     return $this->mysqli->error;
                 }
             }else{
@@ -64,7 +75,7 @@
                 $class_id=$post['class_id'];
 
                 //UPDATE RECORD QUERY
-                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city', phone_nbr='$phone',class_id='$class_id' where id='$id'";
+                $sql="UPDATE $table SET std_name='$userName', university='$university', city='$city', phone_nbr='$phone',cls_id='$class_id' where id='$id'";
 
                 if($this->mysqli->query($sql)){
                     //IF DATA UPDATE SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
@@ -96,13 +107,85 @@
             }
         }
 
+        //CLASSLIST DISPLAY
+        public function classListDisplay($classTable){
+            //CHECK TABLE EXISTS OR NOT
+            if($this->tableExists($classTable)){
+                //SQL STATEMENT
+                $sql="SELECT * FROM $classTable";
+                //RUN THE QUERY
+                $query=$this->mysqli->query($sql);
+                //CHECK ANY ROW EXISTS OR NOT
+                if($query->num_rows > 0){
+                    //FETCH DATA
+                    while($result = $query->fetch_assoc()){
+                        $data[] = $result;
+                    }
+                    //print_r($data);
+                    return $data;
+                }
+            }else{
+                return $this->mysqli->error;
+            }
+        }
+
+        //ADD_CLASS_BY_USER
+        public function add_Class_Into_the_record($post,$stdTable){
+            echo $stdTable;
+            $std_id=$post['hid_id'];
+            $class_id=$post['class_id'];
+            $std_name=$post['hid_std_name'];
+            $university=$post['hid_university'];
+            $city=$post['hid_city'];
+            $contact=$post['hid_phone_nbr'];
+            //CHECK TABLE EXISTS OR NOT
+            if($this->tableExists($stdTable)){
+                //SQL FOR STUDENT_INFO_TABLE
+                $stdSql="SELECT * FROM $stdTable WHERE id='$std_id'";
+                //RUN THE SQL COMMAND
+                $query=$this->mysqli->query($stdSql);
+                //CHECK IF THERE IS ANY RECORD IN THE TABLE
+                if($query->num_rows > 0){
+                    //FETCH A SINGLE RECORD FROM STUDENT TABLE
+                    $row = $query->fetch_assoc();
+                    //CHECK CONDITION IF CLS_ID VALUE IS NOT 0 THEN INSERT A NEW RECORD
+                    //OTHERWISE UPDATE THAT PARTICULER CLS_ID
+                    if(!$row['cls_id']=0){
+                        //INSERT SQL
+                        $insertSql="INSERT $stdTable (std_name,university,city,phone_nbr,cls_id) VALUES ('$std_name','$university','$city','$contact',$class_id)";
+                        
+                        if($this->mysqli->query($insertSql)){
+                            header('location:displayrecords.php?msg=class_added_done');
+                        }else{
+                            echo "PROBLEM IN add_Class_Into_the_record METHOD's CONDITION";
+                        }
+                    }else{
+                        //UPDATE SQL
+                        echo $sql="UPDATE $stdTable SET cls_id='$class_id' WHERE id='$std_id'";
+
+                        if($this->mysqli->query($sql)){
+                            //IF DATA UPDATE SUCCESSFULLY THEN SENT A HEADER WITH QUERY PARAMETER
+                            header('location:displayrecords.php?msg=class_updated_done');
+                        }else{
+                            return $this->mysqli->error;
+                        }
+                    }
+                }else{
+                    return $this->mysqli->error;
+                }
+            }else{
+                //return $this->mysqli->error;
+                echo "NOT add_Class_Into_the_record!!";
+            }
+        }
+
         //DISPLAY ALL RECORDS
         public function displayRecords($stdTable){
 
             //IF TABLE EXISTS
             if($this->tableExists($stdTable)){
                 //SHOW ALL RECORDS SQL
-                //echo $sql="SELECT * FROM $stdTable left JOIN $classTable ON $stdTable.id = $classTable.std_id";
+                // echo $sql="SELECT * FROM $stdTable left JOIN $classTable ON $stdTable.id = $classTable.std_id";
                 echo $sql="SELECT * FROM $stdTable";
                 
                 //RUN SQL COMMAND
@@ -130,7 +213,7 @@
             //IF TABLE EXISTS
             if($this->tableExists($table)){
                 //SHOW SINGLE RECORD FIND SQL
-                $sql="SELECT * FROM $table where id='$editID'";
+                echo $sql="SELECT * FROM $table where id='$editID'";
 
                 //RUN SQL COMMAND
                 $display=$this->mysqli->query($sql);
@@ -138,7 +221,7 @@
                 //CHECK THERE IS ANY RECORD IN THE TABLE;
                 if($display->num_rows > 0){
                     // FATCHING A SINGLE ASSOCIATIVE ARRAY TYPE RECORD
-                    $row=$display->fetch_array();
+                    $row=$display->fetch_assoc();
                     return $row;
                 }else{
                     echo"There is no single record in this table!";
@@ -146,28 +229,46 @@
             }
         }
 
-        public function insert_forenkey_into_home_page(){
-            $sql="SELECT * FROM `classes`";
-            $row=$this->mysqli->query($sql);
-                if($row->num_rows > 0){
-                    while($data=$row->fetch_assoc()){
-                        $classData[]=$data;
-                    }
-                    return $classData;
+        //CLASSES ADDED AND UPDATED  
+        public function add_classByID($add_classID,$table){
+
+            //IF TABLE EXISTS
+            if($this->tableExists($table)){
+                //SHOW SINGLE RECORD FIND SQL
+                echo $sql="SELECT * FROM $table where id='$add_classID'";
+
+                //RUN SQL COMMAND
+                $display=$this->mysqli->query($sql);
+
+                //CHECK THERE IS ANY RECORD IN THE TABLE;
+                if($display->num_rows > 0){
+                    // FATCHING A SINGLE ASSOCIATIVE ARRAY TYPE RECORD
+                    $single_row=$display->fetch_assoc();
+                    return $single_row;
+                }else{
+                    echo"There is no single record in this table!";
                 }
+            }
         }
 
-        public function displayrecordwithforenkeydropdown($clsId){
-            $sql="SELECT * FROM `classes` WHERE class_id='$clsId'";
+        //DISPLAY CLASS_NAME WITH DROP-DOWN STYLE IN DISPLAY RECORDS PAGE
+        public function display_Record_with_forenkey_dropdown($clsId,$clsTable){
+            //SQL COMMAND
+            $sql="SELECT * FROM $clsTable  WHERE cls_id='$clsId'";
+
+            //RUN SQL COMMAND
             $data=$this->mysqli->query($sql);
+            //CHECK THERE IS ANY RECORD IN THE TABLE;
             if($data->num_rows > 0){
+                // FATCHING ALL DATA FROM CLASSES WITH  ASSOCIATIVE ARRAY TYPE RECORD
                 while($row=$data->fetch_assoc()){
                     $rows[]=$row;
-                };
+                }
+                return $rows;
             }
-            return $rows;
         }
-        //DISPLAY CLASSES PER_SINGLE RECORDS
+
+        // //DISPLAY CLASSES PER_SINGLE RECORDS
         // public function classlistByID($stdID,$stdTable,$classTable){
             
         //     //SQL FOR JOINING

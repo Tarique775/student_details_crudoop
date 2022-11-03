@@ -1,64 +1,89 @@
 :root {
-  --primary: #171c2a;
-  --secondary: #11141f;
-  --tertiary: #1f222e;
-  --dark: #0e0e12;
-  --green: #52d794;
-  --blue: #00b3bd;
-  --light: #fff;
-  --red: indianred;
-  --yeallow: rgb(253, 253, 36);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-/* * html,
-body {
-    width: 100%;
-    height: 100%;
-} */
-/* * html {
+    --primary: #171c2a;
+    --secondary: #11141f;
+    --tertiary: #1f222e;
+    --dark: #0e0e12;
+    --green: #52d794;
+    --blue: #00b3bd;
+    --light: #fff;
+    --red: indianred;
+    --yeallow: rgb(253, 253, 36);
+    --meganta:#FF0099;
+    --purple:#CC0099;
+  }
+  
+  * {
     box-sizing: border-box;
   }
-  *, *:before, *:after {
-    box-sizing: inherit;
+
+  body{
+    margin: 0;
+    padding: 0;
+  }
+  /* * html,
+  body {
+      width: 100%;
+      height: 100%;
   } */
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(to right, var(--green) 0%, var(--blue) 100%);
-  /* font-size: 10px; */
-}
-form .input {
-  background: var(--tertiary);
-  outline: none;
-  /* padding: 15px; */
-  border: 1px solid var(--dark);
-  color: #fff;
-  border-radius: 6px;
-  font-size: 1.2rem;
-}
+  /* * html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    } */
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(to right, var(--green) 0%, var(--blue) 100%);
+    /* font-size: 10px; */
+  }
+  form .input {
+    background: var(--tertiary);
+    outline: none;
+    /* padding: 15px; */
+    border: 1px solid var(--dark);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1.2rem;
+  }
+  
+  .card {
+    background: var(--primary);
+    /* border-radius: 6px; */
+  }
+  .card-body {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    border-radius: 6px;
+  }
+  
+  label {
+    color: var(--green);
+    font-size: 1.2rem;
+  }
+  
+  #submit {
+    background: linear-gradient(to right, var(--blue) 0%, var(--green) 100%);
+    outline: none;
+    color: var(--dark);
+    font-size: 1rem;
+  }
 
-.card {
-  background: var(--primary);
-  /* border-radius: 6px; */
-}
-.card-body {
-  background: var(--secondary);
-  border-color: var(--secondary);
-  border-radius: 6px;
-}
+  .form-check .form-check-input {
+    font-size: 1.2rem;
+  }
+  .form-check .form-check-label{
+    font-size: 1.2rem;
+    color: var(--primary);
+  }
 
-label {
-  color: var(--green);
-  font-size: 1.2rem;
-}
+  label.schedule {
+    color: var(--primary);
+    font-size: 1.2rem;
+  }
 
-#submit {
-  background: linear-gradient(to right, var(--blue) 0%, var(--green) 100%);
-  outline: none;
-  color: var(--dark);
-  font-size: 1rem;
-}
+  #submitcl{
+    background: linear-gradient(to right, var(--purple) 0%, var(--meganta) 100%);
+    outline: none;
+    color: var(--dark);
+    font-size: 1rem;
+  }

@@ -8,14 +8,13 @@
     if(isset($_POST['submit'])){
         //CREATE A INSTANCE OF UserValidation CLASS
         $validations=new UserValidation($_POST);
-
         //GET ERROR MESSAGE
         $get_error=$validations->validation();
         print_r($get_error);
 
         //IF THERE IN NO ERROR IN FIELD SECTION THEN INSERT THE DATA INTO DATABASE
         if(!$get_error){
-            $obj->insertData($_POST,'studentsinfo');//(POST_DATA,TABLENAME)
+            $insertData = $obj->insertData($_POST,'studentsinfo');//(POST_DATA,TABLENAME)
         }
     }
 ?>
@@ -38,9 +37,9 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1 class="text-center mt-2">CRUD OPERATION USING OOP IN PHP</h1>
+        <h1 class="text-center m-5">CRUD OPERATION USING OOP IN PHP</h1>
     </div>
-    <div class="row mt-3">
+    <div class="row ">
         <div class="col-md-4"></div>
         <div class="col-md-4 maincol">
             <div class="card" >
@@ -48,7 +47,7 @@
                     <!-- INSERT_FORM -->
                     <form id="form" action="home.php" method="POST">
                         <div class="mb-2">
-                            <label class="form-label"><strong>UsarName</strong></label>
+                            <label class="form-label label"><strong>UsarName</strong></label>
                             <div class="error"></div>
                             <input type="name" name="name" placeholder="Enter your name" class="form-control input" id="userName">
                         </div>
@@ -58,7 +57,7 @@
                             }
                         ?>
                         <div class="mb-2 ">
-                            <label class="form-label"><strong>University</strong></label>
+                            <label class="form-label label"><strong>University</strong></label>
                             <div class="error"></div>
                             <input type="university" name="university" class="form-control input" placeholder="Enter your university name" id="university">
                         </div>
@@ -68,7 +67,7 @@
                             }
                         ?>
                         <div class="mb-2">
-                            <label class="form-label"><strong>City</strong></label>
+                            <label class="form-label label"><strong>City</strong></label>
                             <div class="error"></div>
                             <input type="city" name="city" class="form-control input" placeholder="Enter the city" id="city">
                         </div>
@@ -78,7 +77,7 @@
                             }
                         ?>
                         <div class="mb-2">
-                            <label class="form-label"><strong>Contact</strong></label>
+                            <label class="form-label label"><strong>Contact</strong></label>
                             <div class="error"></div>
                             <input type="phone" name="phone" class="form-control input" placeholder="Enter the phone number" id="contact">
                         </div>
@@ -87,21 +86,10 @@
                                 echo '<div class="alert alert-danger">'.$get_error['phone'].'</div>';
                             }
                         ?>
-                        <div class="mb-3">
-                        <label class="form-label"><strong>Select Classes</strong></label>
-                        <select name="class_id" class="form-select bg-dark text-light class_id" aria-label="Default select example">
-                            <option selected>Please Select classes</option>
-                        <?php
-                            $classes=$obj->insert_forenkey_into_home_page();
-
-                            foreach($classes as $classValue){
-                        ?>
-                            <option value="<?php echo $classValue['class_id'] ?>"><?php echo $classValue['class_name'] ?></option>
-                        <?php } ?>
-                        </select>
-                        </div>
-                        <button type="submit" name="submit" value="submit" class="btn btn-primary submit" id="submit"><strong>SUBMIT</strong></button>
-                        <button type="button" onclick="history.back()" class="btn btn-primary ms-2" id="submit"><strong>GO BACK</strong></button>
+                        
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary submit mt-2" id="submit"><strong>SUBMIT</strong></button>
+                        <button type="button" onclick="history.back()" class="btn btn-primary ms-2 mt-2" id="submit"><strong>GO BACK</strong></button>
+                        <input type="hidden" name='hidcls_id' value='0'>
                     </form>
                     <!-- INSERT_FORM END -->
                 </div>

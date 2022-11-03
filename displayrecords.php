@@ -2,9 +2,13 @@
     include 'database.php';
     include 'validation.php';
     $obj=new UsersData();
+    session_start();
+    if(!isset($_SESSION['userName'])){
+        header('location:home.php');
+    }
     // $class=$obj->classlistByID(1,'studentsinfo');
     // print_r($class);
-    print_r($obj);
+    //print_r($obj);
 
     //POST UPDATED DATA WITH VALIDATION
     if(isset($_POST['update'])){
@@ -94,10 +98,10 @@
                                 echo '<div class="alert alert-danger">'.$get_error['phone'].'</div>';
                             }
                         ?>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label class="form-label"><strong>Contact</strong></label>
                             <input type="class_id" name="class_id" class="form-control" value=<?php echo $singleRecord['class_id']?> >
-                        </div>
+                        </div> -->
                         <button type="submit" name="update" value="update" class="btn btn-primary" ><strong>Update</strong></button>
                         <input type="hidden" name='hid' value=<?php echo $singleRecord['id']?> >
                     </form>
@@ -124,6 +128,16 @@
                         <strong>Record delete Successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     }
+                    if(isset($_GET['msg']) && $_GET['msg'] == 'class_added_done'){
+                        echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <strong>Successfully Add Classes!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                    }
+                    if(isset($_GET['msg']) && $_GET['msg'] == 'class_updated_done'){
+                        echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <strong>Successfully Updated Classes!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                    }
                 ?>
 
                 <!-- TABLE LIST -->
@@ -143,18 +157,18 @@
                     <?php
                         $data=$obj->displayRecords('studentsinfo');//table name
                         if($data){
-                        //$id_no=1;
+                        $id_no=1;
                         foreach($data as $value){
                     ?>
                         <tr class="text-center">
-                            <td><?php echo $value['id'];?></td>
+                            <td><?php echo $id_no++;?></td>
                             <td><?php echo $value['std_name'];?></td>
                             <td><?php echo $value['university'];?></td>
                             <td><?php echo $value['city'];?></td>
                             <td><?php echo $value['phone_nbr'];?></td>
                             <td>
                                 <?php
-                                    if($value['class_id']!=0){
+                                    if($value['cls_id']!=0){
 
                                     
                                 ?>
@@ -164,19 +178,20 @@
                                     </button>
                                     <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
                             <?php
-                                $iD=$value['class_id'];
-                                $data2=$obj->displayrecordwithforenkeydropdown($iD);
+                                $iD=$value['cls_id'];
+                                $data2=$obj->display_Record_with_forenkey_dropdown($iD,'classes');
                                 foreach($data2 as $classIDdata){
                             ?>
-                                        <li><a class="dropdown-item "><?php echo $classIDdata['class_name']?$classIDdata['class_name']:$classIDdata['class_id'];?></a></li>
+                                        <li><a class="dropdown-item "><?php echo $classIDdata['cls_name'];?><span class="ms-5"><?php echo $classIDdata['cls_schedule'];?></span></a></li>
                             <?php } ?>
                                     </ul>
                                 </div>
                                 <?php }else {?>
                                     <h6></h6>
                                 <?php } ?>
-                            </td>
+                            </td>                            
                             <td>
+                                <a href="classSchedule.php?addclass=<?php echo $value['id']?>" type="button" class="btn btn-info">Add_Class</a>
                                 <a href="displayrecords.php?edit=<?php echo $value['id']?>" type="button" class="btn btn-primary ms-2 ">Update</a>
                                 <a href="displayrecords.php?delete=<?php echo $value['id']?>" type="button" class="btn btn-danger ms-2 ">Delete</a>
                             </td>
@@ -194,6 +209,7 @@
         </div>
         <div class="col-md-2">
             <a href="home.php" type="button" class="btn btn-success mt-4 ms-4"><strong>Add_NewUser</strong></a>
+            <a href="logout.php" type="button" class="btn btn-danger mt-4 ms-4"><strong>Logout</strong></a>
         </div>
     </div>
 </body>
